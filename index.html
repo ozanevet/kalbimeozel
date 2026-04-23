@@ -10,304 +10,195 @@
         body {
             font-family: 'Nunito', sans-serif;
             background-color: #fff0f5; 
+            margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            margin: 0;
             text-align: center;
             overflow-x: hidden;
-            position: relative;
         }
 
-        /* Çiçek Bombası/Yağmuru Konteyneri (Z-INDEX YÜKSELTTİK - EN ÜSTE ALDIK) */
+        /* Çiçek ve Kalp Yağmuru (En Üst Katman) */
         #fallingContainer {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; /* Alttaki metin kutusuna tıklanabilsin diye */
-            z-index: 9999; /* Sayfadaki her şeyin üzerinde */
+            pointer-events: none; 
+            z-index: 9999; 
             overflow: hidden;
         }
 
         .container {
             background: rgba(255, 255, 255, 0.95);
             padding: 2.5rem;
-            border-radius: 20px;
+            border-radius: 25px;
             box-shadow: 0 15px 35px rgba(255, 182, 193, 0.6);
-            max-width: 500px;
+            max-width: 550px;
             width: 85%;
-            z-index: 10; /* Yağmurun altında kalacak */
+            z-index: 10;
             position: relative;
             border: 2px solid #ffb3c6;
-            transition: all 1s ease-in-out;
+            margin: 20px;
         }
 
-        /* Titreme Efekti */
-        .shake {
-            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        /* Köşe Kalpleri */
+        .corner-heart {
+            position: fixed;
+            font-size: 2rem;
+            z-index: 5;
+            animation: pulse 2s infinite;
         }
+        .tl { top: 15px; left: 15px; } .tr { top: 15px; right: 15px; }
+        .bl { bottom: 15px; left: 15px; } .br { bottom: 15px; right: 15px; }
 
-        @keyframes shake {
-            10%, 90% { transform: translate3d(-2px, 0, 0); }
-            20%, 80% { transform: translate3d(4px, 0, 0); }
-            30%, 50%, 70% { transform: translate3d(-8px, 0, 0); }
-            40%, 60% { transform: translate3d(8px, 0, 0); }
-        }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
 
-        h2 {
-            font-family: 'Dancing Script', cursive;
-            color: #d81b60;
-            font-size: 2.8rem;
-            margin-bottom: 10px;
-            opacity: 0;
-            transition: opacity 2s ease-in;
-        }
-
-        p.question {
-            font-weight: 600;
-            color: #ad1457;
-            margin-bottom: 20px;
-            font-size: 1.1rem;
-        }
-
-        input {
-            padding: 12px;
-            border: 2px solid #f48fb1;
-            border-radius: 12px;
-            width: 80%;
-            margin-bottom: 15px;
-            outline: none;
-            font-size: 1.1rem;
-            text-align: center;
-            background-color: #fffafb;
-            color: #880e4f;
-            pointer-events: auto; /* Şifre girilebilsin */
-        }
-
-        button {
-            background-color: #f06292;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: bold;
-            transition: 0.3s;
-            box-shadow: 0 4px 15px rgba(240, 98, 146, 0.4);
-            pointer-events: auto; /* Tıklanabilsin */
-        }
-
-        button:hover {
-            background-color: #ec407a;
-            transform: translateY(-2px);
-        }
-
-        #secretContent {
-            display: none;
-            opacity: 0;
-        }
-
-        /* Nefes Alan Fotoğraf Efekti */
-        .breathing-img {
-            max-width: 100%;
-            border-radius: 15px;
-            margin-top: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            border: 4px solid #fff0f5;
-            opacity: 0;
-            transition: opacity 2s ease-in;
-            animation: breath 4s ease-in-out infinite;
-        }
-
-        @keyframes breath {
-            0% { transform: scale(0.98); box-shadow: 0 5px 15px rgba(216, 27, 96, 0.2); }
-            50% { transform: scale(1.02); box-shadow: 0 15px 25px rgba(216, 27, 96, 0.5); }
-            100% { transform: scale(0.98); box-shadow: 0 5px 15px rgba(216, 27, 96, 0.2); }
-        }
-
-        .message {
-            color: #4a148c;
-            line-height: 1.7;
-            margin-top: 20px;
-            text-align: justify;
-            font-size: 1.05rem;
-            min-height: 200px;
-        }
-
-        .message p {
-            margin-bottom: 15px;
-        }
-
-        .signature {
-            text-align: center !important;
-            font-family: 'Dancing Script', cursive;
-            font-size: 2.2rem;
-            color: #d81b60;
-            margin-top: 25px;
-            font-weight: bold;
-        }
+        /* Başlık ve Yazılar */
+        h2 { font-family: 'Dancing Script', cursive; color: #d81b60; font-size: 2.5rem; }
+        .message { color: #4a148c; line-height: 1.7; font-size: 1.1rem; text-align: justify; margin-bottom: 20px; }
         
-        .cursor::after {
-            content: '|';
-            animation: blink 1s infinite;
+        /* Şifre Ekranı */
+        input { padding: 12px; border: 2px solid #f48fb1; border-radius: 12px; width: 80%; margin-bottom: 15px; outline: none; text-align: center; }
+        button { background-color: #f06292; color: white; border: none; padding: 12px 30px; border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        button:hover { background-color: #ec407a; transform: translateY(-2px); }
+
+        /* Gizli Bölümler */
+        #secretContent, #finalPage { display: none; }
+
+        /* Video ve Sözleşme Sayfası */
+        #finalPage { opacity: 0; transition: opacity 1.5s ease; width: 100%; display: none; flex-direction: column; align-items: center; }
+        video { width: 100%; max-width: 450px; border-radius: 15px; border: 4px solid #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.1); margin-bottom: 25px; }
+        
+        .contract {
+            background: #fffafa;
+            border: 2px dashed #d81b60;
+            padding: 20px;
+            text-align: left;
+            border-radius: 15px;
         }
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
+        .contract h3 { font-family: 'Dancing Script', cursive; text-align: center; color: #d81b60; font-size: 2rem; margin-top: 0; }
+        .contract p { margin-bottom: 15px; color: #333; font-size: 0.95rem; }
+        .signature { font-family: 'Dancing Script', cursive; font-size: 1.8rem; text-align: center; color: #d81b60; margin-top: 20px; font-weight: bold; }
+
+        /* Daktilo İmleci */
+        .cursor::after { content: '|'; animation: blink 1s infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* Titreme Animasyonu */
+        .shake { animation: shake 0.5s both; }
+        @keyframes shake { 10%, 90% { transform: translate3d(-1px, 0, 0); } 20%, 80% { transform: translate3d(2px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-4px, 0, 0); } 40%, 60% { transform: translate3d(4px, 0, 0); } }
     </style>
 </head>
 <body>
 
+<audio id="bgMusic" src="sarki.mp3" loop></audio>
 <div id="fallingContainer"></div>
 
+<div class="corner-heart tl">💖</div><div class="corner-heart tr">💖</div>
+<div class="corner-heart bl">💖</div><div class="corner-heart br">💖</div>
+
 <div class="container" id="loginBox">
-    <h2 style="opacity: 1;">Kilitli Anı Kutusu</h2>
-    <p class="question">Doğum günlerimiz arasındaki gün sayısı?</p>
+    <h2>Kilitli Anı Kutusu</h2>
+    <p>Doğum günlerimiz arasındaki gün sayısı?</p>
     <input type="number" id="passwordInput" placeholder="Cevap...">
     <br>
     <button onclick="checkPassword()">Kilidi Aç</button>
 </div>
 
 <div class="container" id="secretContent">
-    <h2 id="titleText">Senin İçin...</h2>
-    <img src="image.png" alt="Biz" class="breathing-img" id="coupleImg">
-    <div class="message" id="messageBox"></div>
+    <h2>Senin İçin...</h2>
+    <img src="image.png" alt="Biz" style="max-width:100%; border-radius:15px; margin-bottom:15px;">
+    <div class="message" id="typewriterMsg"></div>
+    <button id="btnDevam" style="display:none;" onclick="showFinalPage()">Devam Et ❤️</button>
+</div>
+
+<div class="container" id="finalPage">
+    <h2>Sözümüz Söz...</h2>
+    <video id="myVideo" controls>
+        <source src="video.mp4" type="video/mp4">
+        Tarayıcın videoyu desteklemiyor.
+    </video>
+
+    <div class="contract">
+        <h3>Telafi Sözleşmesi</h3>
+        <p><strong>• Madde 1:</strong> Ozan, kırılan güvenin onarımının zaman alacağının bilincindedir ve eskisinden daha güçlü bir güven inşa edene kadar limitsiz sabır, şeffaflık ve anlayış göstereceğini beyan eder.</p>
+        <p><strong>• Madde 2:</strong> Ozan, herhangi bir tartışmada kolaya kaçıp "tamam sen haklısın pardon" diyerek konuyu kapatmaya çalışmayacak; aldığı tüm PDR eğitimini ve aktif dinleme becerilerini, sadece senin hislerini gerçekten, derinlemesine anlamak için kullanacaktır.</p>
+        <p><strong>• Madde 3:</strong> Ozan, senin canını sıkan konu dünyanın en ufak detayı bile olsa, o konuyu 3. Dünya Savaşı krizi ciddiyetiyle ele almayı ve sen tamamen rahatlayana kadar konuyu asla değiştirmemeyi taahhüt eder.</p>
+        <div class="signature">Ozan Tarafından İmzalandı ✍️</div>
+    </div>
 </div>
 
 <script>
-    const lines = [
-        "Tekrar ettiğim şeyler yüzünden seni üzdüm, kendime çok kızgınım. Sadece özür dilemek yangına şırıngayla müdahale etmek gibi olur.",
-        "Tabii ki bunların arkasına sığınarak yaptıklarımı normalleştirmeyeceğim ama bildiğin gibi kötü zamanlardan geçtim. O sırada kendi iç çatışmalarım yüzünden dikkatimi yapmam gereken şeylere veremedim, kendi salaklığım ve aptallığımdı. Şu an tamamen farkındayım; çok profesyonel olmasa da destek alıyorum, gerekirse daha profesyonel bir destek de alabilirim. Seni üzmemek için elimden gelen ne varsa yaparım.",
-        "Yaptıklarım sana kendini dinlenmiyormuş, umursanmıyormuş gibi hissettirmiş olabilir, biliyorum. Kırdığım güveni de yeniden kurmak için acele etmem, sabırla eskisinden daha güçlüsünü beraber inşa edebiliriz."
-    ];
-    const signature = "Seni her şey ve herkesten çok seviyorum. ❤️";
+    const text = "Tekrar ettiğim şeyler yüzünden seni üzdüm, kendime çok kızgınım. Sadece özür dilemek yangına şırıngayla müdahale etmek gibi olur. Tabii ki bunların arkasına sığınarak yaptıklarımı normalleştirmeyeceğim ama bildiğin gibi kötü zamanlardan geçtim. O sırada kendi iç çatışmalarım yüzünden dikkatimi yapmam gereken şeylere veremedim, kendi salaklığım ve aptallığımdı. Şu an tamamen farkındayım; çok profesyonel olmasa da destek alıyorum, gerekirse daha profesyonel bir destek de alabilirim. Seni üzmemek için elimden gelen ne varsa yaparım. Yaptıklarım sana kendini dinlenmiyormuş, umursanmıyormuş gibi hissettirmiş olabilir, biliyorum. Kırdığım güveni de yeniden kurmak için acele etmem, sabırla eskisinden daha güçlüsünü beraber inşa edebiliriz. Seni her şeyden çok seviyorum. ❤️";
 
     function checkPassword() {
-        const password = document.getElementById('passwordInput').value.trim();
-        if (password === "100") {
-            triggerMagic();
-        } else {
-            alert("Sanki bu o sayı değildi... Tekrar düşünmek ister misin? 🌸");
-        }
-    }
-
-    function triggerMagic() {
-        const loginBox = document.getElementById('loginBox');
-        
-        // Kutuyu Titret
-        loginBox.classList.add('shake');
-        
-        setTimeout(() => {
-            // Kutuyu Patlat ve Yağmuru Başlat
-            loginBox.style.display = 'none';
-            explodeParticles(); // Patlama efekti
-            startFallingBackground(); // Sürekli yağmur
-
-            // Yeni ekranı yumuşakça getir
-            const secretContent = document.getElementById('secretContent');
-            secretContent.style.display = 'block';
-            
+        if (document.getElementById('passwordInput').value === "100") {
+            document.getElementById('loginBox').classList.add('shake');
             setTimeout(() => {
-                secretContent.style.opacity = '1';
-                document.getElementById('titleText').style.opacity = '1';
-                document.getElementById('coupleImg').style.opacity = '1';
-                
-                // Birkaç saniye sonra daktilo efektini başlat
-                setTimeout(startTypewriter, 1500);
-            }, 100);
-
-        }, 500);
+                document.getElementById('loginBox').style.display = 'none';
+                document.getElementById('bgMusic').play();
+                startFalling();
+                explode();
+                document.getElementById('secretContent').style.display = 'block';
+                startTypewriter();
+            }, 500);
+        } else { alert("Sanki bu o sayı değildi... 🌸"); }
     }
-
-    function explodeParticles() {
-        const container = document.getElementById('fallingContainer'); // Patlama da en üstte olsun
-        const emojis = ['❤️', '💖', '🌸', '💮', '🪷'];
-        for (let i = 0; i < 50; i++) { // Sayıyı biraz artırdık
-            let p = document.createElement('div');
-            p.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-            p.style.position = 'absolute'; // fixed yerine absolute ve konteyner içine aldık
-            p.style.left = '50%';
-            p.style.top = '50%';
-            p.style.fontSize = (Math.random() * 25 + 25) + 'px'; // Daha büyük patlama
-            p.style.pointerEvents = 'none';
-            p.style.zIndex = '9999';
-            p.style.transition = 'all 1.2s cubic-bezier(0.25, 1, 0.5, 1)';
-            p.style.transform = 'translate(-50%, -50%) scale(0.1)';
-            container.appendChild(p);
-
-            setTimeout(() => {
-                let angle = Math.random() * Math.PI * 2;
-                let radius = Math.random() * 450 + 150; // Daha uzağa patlasın
-                let tx = Math.cos(angle) * radius;
-                let ty = Math.sin(angle) * radius;
-                p.style.transform = `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(1.6) rotate(${Math.random()*720}deg)`;
-                p.style.opacity = '0';
-            }, 50);
-
-            setTimeout(() => p.remove(), 1250);
-        }
-    }
-
-    function startFallingBackground() {
-        const container = document.getElementById('fallingContainer');
-        const emojis = ['🌸', '💮', '🪷', '💖'];
-        
-        setInterval(() => {
-            let p = document.createElement('div');
-            p.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-            p.style.position = 'absolute';
-            p.style.left = Math.random() * 100 + 'vw';
-            p.style.top = '-50px';
-            p.style.fontSize = (Math.random() * 18 + 18) + 'px'; // Yağanları da biraz büyütebiliriz
-            p.style.opacity = Math.random() * 0.6 + 0.3; // Biraz daha görünür
-            p.style.transition = 'all ' + (Math.random() * 3 + 4) + 's linear';
-            p.style.zIndex = '9999';
-            container.appendChild(p);
-
-            setTimeout(() => {
-                p.style.top = '110vh';
-                p.style.transform = `rotate(${Math.random()*360}deg)`;
-            }, 50);
-
-            setTimeout(() => p.remove(), 7000);
-        }, 350); // Ekrana düşme sıklığını biraz artırdık
-    }
-
-    let lineIdx = 0;
-    let charIdx = 0;
-    let msgBox = document.getElementById('messageBox');
-    let currentP = null;
 
     function startTypewriter() {
-        if (lineIdx < lines.length) {
-            if (charIdx === 0) {
-                if(currentP) currentP.classList.remove('cursor');
-                currentP = document.createElement('p');
-                currentP.classList.add('cursor');
-                msgBox.appendChild(currentP);
-            }
-            if (charIdx < lines[lineIdx].length) {
-                currentP.innerHTML += lines[lineIdx].charAt(charIdx);
-                charIdx++;
-                setTimeout(startTypewriter, 30); 
+        let i = 0;
+        const msgDiv = document.getElementById('typewriterMsg');
+        msgDiv.classList.add('cursor');
+        function type() {
+            if (i < text.length) {
+                msgDiv.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(type, 35);
             } else {
-                lineIdx++;
-                charIdx = 0;
-                setTimeout(startTypewriter, 600); 
+                msgDiv.classList.remove('cursor');
+                document.getElementById('btnDevam').style.display = 'inline-block';
             }
-        } else {
-            if(currentP) currentP.classList.remove('cursor');
-            let sig = document.createElement('p');
-            sig.className = 'signature';
-            sig.innerHTML = signature;
-            sig.style.opacity = 0;
-            sig.style.transition = "opacity 2s";
-            msgBox.appendChild(sig);
-            setTimeout(() => sig.style.opacity = 1, 100);
+        }
+        type();
+    }
+
+    function showFinalPage() {
+        document.getElementById('secretContent').style.opacity = '0';
+        setTimeout(() => {
+            document.getElementById('secretContent').style.display = 'none';
+            const final = document.getElementById('finalPage');
+            final.style.display = 'flex';
+            setTimeout(() => { final.style.opacity = '1'; }, 50);
+        }, 1000);
+    }
+
+    function startFalling() {
+        setInterval(() => {
+            const emojis = ['🌸', '💮', '🪷', '💖'];
+            const e = document.createElement('div');
+            e.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            e.style.cssText = `position:fixed; top:-50px; left:${Math.random()*100}vw; font-size:${Math.random()*20+15}px; z-index:9999; transition:all ${Math.random()*3+4}s linear; opacity:0.8;`;
+            document.getElementById('fallingContainer').appendChild(e);
+            setTimeout(() => { e.style.top = '110vh'; e.style.transform = `rotate(${Math.random()*360}deg)`; }, 50);
+            setTimeout(() => e.remove(), 7000);
+        }, 300);
+    }
+
+    function explode() {
+        for (let i = 0; i < 40; i++) {
+            const p = document.createElement('div');
+            p.innerText = '❤️';
+            p.style.cssText = `position:fixed; left:50%; top:50%; z-index:9999; transition:all 1s ease-out; transform:translate(-50%,-50%);`;
+            document.body.appendChild(p);
+            setTimeout(() => {
+                const a = Math.random() * Math.PI * 2;
+                const r = Math.random() * 300 + 100;
+                p.style.transform = `translate(calc(-50% + ${Math.cos(a)*r}px), calc(-50% + ${Math.sin(a)*r}px)) scale(1.5)`;
+                p.style.opacity = '0';
+            }, 50);
+            setTimeout(() => p.remove(), 1050);
         }
     }
 </script>
-
 </body>
 </html>
