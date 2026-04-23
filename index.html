@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sana Bir Mesajım Var</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Nunito:wght@400;600&display=swap');
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #fff0f5; /* Açık pembemsi ton */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Köşelerdeki Kalpler */
+        .corner-heart {
+            position: fixed;
+            font-size: 2.5rem;
+            animation: pulse 2s infinite;
+            z-index: 0;
+        }
+        .tl { top: 20px; left: 20px; }
+        .tr { top: 20px; right: 20px; }
+        .bl { bottom: 20px; left: 20px; }
+        .br { bottom: 20px; right: 20px; }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Çiçek Süslemeleri (Zambak ve çiçek motifleri) */
+        .flower {
+            position: fixed;
+            font-size: 2.5rem;
+            opacity: 0.85;
+            z-index: 0;
+        }
+        .f1 { top: 15%; left: 10%; animation: float 4s ease-in-out infinite 0.5s; }
+        .f2 { top: 45%; right: 5%; font-size: 3rem; animation: float 5s ease-in-out infinite 1s; }
+        .f3 { bottom: 15%; left: 15%; animation: float 3.5s ease-in-out infinite 1.5s; }
+        .f4 { top: 75%; right: 15%; font-size: 2rem; animation: float 4.5s ease-in-out infinite 0.2s; }
+        .f5 { top: 10%; right: 25%; font-size: 3.5rem; animation: float 6s ease-in-out infinite 2s; }
+        .f6 { bottom: 35%; left: 5%; animation: float 4s ease-in-out infinite 0.8s; }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(10deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(255, 182, 193, 0.6);
+            max-width: 500px;
+            width: 85%;
+            z-index: 10;
+            position: relative;
+            border: 2px solid #ffb3c6;
+        }
+
+        h2 {
+            font-family: 'Dancing Script', cursive;
+            color: #d81b60;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+
+        p.question {
+            font-weight: 600;
+            color: #ad1457;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        input {
+            padding: 12px;
+            border: 2px solid #f48fb1;
+            border-radius: 12px;
+            width: 80%;
+            margin-bottom: 15px;
+            outline: none;
+            font-size: 1.1rem;
+            text-align: center;
+            background-color: #fffafb;
+            color: #880e4f;
+        }
+
+        input:focus {
+            border-color: #d81b60;
+        }
+
+        button {
+            background-color: #f06292;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(240, 98, 146, 0.4);
+        }
+
+        button:hover {
+            background-color: #ec407a;
+            transform: translateY(-2px);
+        }
+
+        #secretContent {
+            display: none;
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 15px;
+            margin-top: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 4px solid #fff0f5;
+        }
+
+        .message {
+            color: #4a148c;
+            line-height: 1.7;
+            margin-top: 20px;
+            text-align: justify;
+            font-size: 1.05rem;
+        }
+
+        .message p {
+            margin-bottom: 15px;
+        }
+
+        .signature {
+            text-align: center !important;
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            color: #d81b60;
+            margin-top: 25px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="corner-heart tl">💖</div>
+<div class="corner-heart tr">💖</div>
+<div class="corner-heart bl">💖</div>
+<div class="corner-heart br">💖</div>
+
+<div class="flower f1">💮</div>
+<div class="flower f2">🪷</div>
+<div class="flower f3">💮</div>
+<div class="flower f4">🌸</div>
+<div class="flower f5">🪷</div>
+<div class="flower f6">💮</div>
+
+<div class="container" id="loginBox">
+    <h2>Kilitli Anı Kutusu</h2>
+    <p class="question">Doğum günlerimiz arasındaki gün sayısı?</p>
+    <input type="number" id="passwordInput" placeholder="Cevap...">
+    <br>
+    <button onclick="checkPassword()">Kilidi Aç</button>
+</div>
+
+<div class="container" id="secretContent">
+    <h2>Senin İçin...</h2>
+    <img src="image.png" alt="Biz">
+    <div class="message">
+        <p>Tekrar ettiğim şeyler yüzünden seni üzdüm, kendime çok kızgınım. Sadece özür dilemek yangına şırıngayla müdahale etmek gibi olur.</p>
+        <p>Tabii ki bunların arkasına sığınarak yaptıklarımı normalleştirmeyeceğim ama bildiğin gibi kötü zamanlardan geçtim. O sırada kendi iç çatışmalarım yüzünden dikkatimi yapmam gereken şeylere veremedim, kendi salaklığım ve aptallığımdı. Şu an tamamen farkındayım; çok profesyonel olmasa da destek alıyorum, gerekirse daha profesyonel bir destek de alabilirim. Seni üzmemek için elimden gelen ne varsa yaparım.</p>
+        <p>Yaptıklarım sana kendini dinlenmiyormuş, umursanmıyormuş gibi hissettirmiş olabilir, biliyorum. Kırdığım güveni de yeniden kurmak için acele etmem, sabırla eskisinden daha güçlüsünü beraber inşa edebiliriz.</p>
+        <p class="signature">Seni her şey ve herkesten çok seviyorum. ❤️</p>
+    </div>
+</div>
+
+<script>
+    function checkPassword() {
+        // Kullanıcının girdiği cevabı al (boşlukları temizle)
+        const password = document.getElementById('passwordInput').value.trim();
+        const dogruSifre = "100"; 
+
+        if (password === dogruSifre) {
+            // Şifre doğruysa kutuyu değiştir
+            document.getElementById('loginBox').style.display = 'none';
+            document.getElementById('secretContent').style.display = 'block';
+        } else {
+            // Şifre yanlışsa uyarı ver
+            alert("Sanki bu o sayı değildi... Tekrar düşünmek ister misin? 🌸");
+        }
+    }
+</script>
+
+</body>
+</html>
