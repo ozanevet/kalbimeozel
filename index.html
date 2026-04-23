@@ -20,12 +20,12 @@
             position: relative;
         }
 
-        /* Arka Plan Yağan Objeler İçin Konteyner */
+        /* Çiçek Bombası/Yağmuru Konteyneri (Z-INDEX YÜKSELTTİK - EN ÜSTE ALDIK) */
         #fallingContainer {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 0;
+            pointer-events: none; /* Alttaki metin kutusuna tıklanabilsin diye */
+            z-index: 9999; /* Sayfadaki her şeyin üzerinde */
             overflow: hidden;
         }
 
@@ -36,7 +36,7 @@
             box-shadow: 0 15px 35px rgba(255, 182, 193, 0.6);
             max-width: 500px;
             width: 85%;
-            z-index: 10;
+            z-index: 10; /* Yağmurun altında kalacak */
             position: relative;
             border: 2px solid #ffb3c6;
             transition: all 1s ease-in-out;
@@ -81,6 +81,7 @@
             text-align: center;
             background-color: #fffafb;
             color: #880e4f;
+            pointer-events: auto; /* Şifre girilebilsin */
         }
 
         button {
@@ -94,6 +95,7 @@
             font-weight: bold;
             transition: 0.3s;
             box-shadow: 0 4px 15px rgba(240, 98, 146, 0.4);
+            pointer-events: auto; /* Tıklanabilsin */
         }
 
         button:hover {
@@ -130,7 +132,7 @@
             margin-top: 20px;
             text-align: justify;
             font-size: 1.05rem;
-            min-height: 200px; /* Daktilo yazarken sayfa zıplamasın diye */
+            min-height: 200px;
         }
 
         .message p {
@@ -146,7 +148,6 @@
             font-weight: bold;
         }
         
-        /* Daktilo imleci */
         .cursor::after {
             content: '|';
             animation: blink 1s infinite;
@@ -194,18 +195,16 @@
     function triggerMagic() {
         const loginBox = document.getElementById('loginBox');
         
-        // 1. Kutuyu Titret
+        // Kutuyu Titret
         loginBox.classList.add('shake');
         
         setTimeout(() => {
-            // 2. Kutuyu Patlat (Görünmez yap ve patlama animasyonu çağır)
+            // Kutuyu Patlat ve Yağmuru Başlat
             loginBox.style.display = 'none';
-            explodeParticles();
-            
-            // 3. Arka planda yağan çiçekleri başlat
-            startFallingBackground();
+            explodeParticles(); // Patlama efekti
+            startFallingBackground(); // Sürekli yağmur
 
-            // 4. Yeni ekranı yumuşakça getir
+            // Yeni ekranı yumuşakça getir
             const secretContent = document.getElementById('secretContent');
             secretContent.style.display = 'block';
             
@@ -214,38 +213,39 @@
                 document.getElementById('titleText').style.opacity = '1';
                 document.getElementById('coupleImg').style.opacity = '1';
                 
-                // 5. Birkaç saniye sonra daktilo efektini başlat
+                // Birkaç saniye sonra daktilo efektini başlat
                 setTimeout(startTypewriter, 1500);
             }, 100);
 
-        }, 500); // Titreme süresi kadar bekle
+        }, 500);
     }
 
     function explodeParticles() {
+        const container = document.getElementById('fallingContainer'); // Patlama da en üstte olsun
         const emojis = ['❤️', '💖', '🌸', '💮', '🪷'];
-        for (let i = 0; i < 40; i++) {
+        for (let i = 0; i < 50; i++) { // Sayıyı biraz artırdık
             let p = document.createElement('div');
             p.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-            p.style.position = 'fixed';
+            p.style.position = 'absolute'; // fixed yerine absolute ve konteyner içine aldık
             p.style.left = '50%';
             p.style.top = '50%';
-            p.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            p.style.fontSize = (Math.random() * 25 + 25) + 'px'; // Daha büyük patlama
             p.style.pointerEvents = 'none';
-            p.style.zIndex = '999';
-            p.style.transition = 'all 1s cubic-bezier(0.25, 1, 0.5, 1)';
+            p.style.zIndex = '9999';
+            p.style.transition = 'all 1.2s cubic-bezier(0.25, 1, 0.5, 1)';
             p.style.transform = 'translate(-50%, -50%) scale(0.1)';
-            document.body.appendChild(p);
+            container.appendChild(p);
 
             setTimeout(() => {
                 let angle = Math.random() * Math.PI * 2;
-                let radius = Math.random() * 350 + 100; // Ne kadar uzağa patlayacakları
+                let radius = Math.random() * 450 + 150; // Daha uzağa patlasın
                 let tx = Math.cos(angle) * radius;
                 let ty = Math.sin(angle) * radius;
-                p.style.transform = `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(1.5) rotate(${Math.random()*360}deg)`;
+                p.style.transform = `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(1.6) rotate(${Math.random()*720}deg)`;
                 p.style.opacity = '0';
             }, 50);
 
-            setTimeout(() => p.remove(), 1050);
+            setTimeout(() => p.remove(), 1250);
         }
     }
 
@@ -259,9 +259,10 @@
             p.style.position = 'absolute';
             p.style.left = Math.random() * 100 + 'vw';
             p.style.top = '-50px';
-            p.style.fontSize = (Math.random() * 15 + 15) + 'px';
-            p.style.opacity = Math.random() * 0.5 + 0.3;
+            p.style.fontSize = (Math.random() * 18 + 18) + 'px'; // Yağanları da biraz büyütebiliriz
+            p.style.opacity = Math.random() * 0.6 + 0.3; // Biraz daha görünür
             p.style.transition = 'all ' + (Math.random() * 3 + 4) + 's linear';
+            p.style.zIndex = '9999';
             container.appendChild(p);
 
             setTimeout(() => {
@@ -270,7 +271,7 @@
             }, 50);
 
             setTimeout(() => p.remove(), 7000);
-        }, 400); // Ekrana düşme sıklığı
+        }, 350); // Ekrana düşme sıklığını biraz artırdık
     }
 
     let lineIdx = 0;
@@ -289,11 +290,11 @@
             if (charIdx < lines[lineIdx].length) {
                 currentP.innerHTML += lines[lineIdx].charAt(charIdx);
                 charIdx++;
-                setTimeout(startTypewriter, 30); // Yazı hızı (milisaniye)
+                setTimeout(startTypewriter, 30); 
             } else {
                 lineIdx++;
                 charIdx = 0;
-                setTimeout(startTypewriter, 600); // Paragraf arası bekleme
+                setTimeout(startTypewriter, 600); 
             }
         } else {
             if(currentP) currentP.classList.remove('cursor');
