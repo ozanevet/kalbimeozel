@@ -9,7 +9,7 @@
 
         body {
             font-family: 'Nunito', sans-serif;
-            background-color: #fff0f5; /* Açık pembemsi ton */
+            background-color: #fff0f5; 
             display: flex;
             justify-content: center;
             align-items: center;
@@ -20,42 +20,13 @@
             position: relative;
         }
 
-        /* Köşelerdeki Kalpler */
-        .corner-heart {
+        /* Arka Plan Yağan Objeler İçin Konteyner */
+        #fallingContainer {
             position: fixed;
-            font-size: 2.5rem;
-            animation: pulse 2s infinite;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
             z-index: 0;
-        }
-        .tl { top: 20px; left: 20px; }
-        .tr { top: 20px; right: 20px; }
-        .bl { bottom: 20px; left: 20px; }
-        .br { bottom: 20px; right: 20px; }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        /* Çiçek Süslemeleri (Zambak ve çiçek motifleri) */
-        .flower {
-            position: fixed;
-            font-size: 2.5rem;
-            opacity: 0.85;
-            z-index: 0;
-        }
-        .f1 { top: 15%; left: 10%; animation: float 4s ease-in-out infinite 0.5s; }
-        .f2 { top: 45%; right: 5%; font-size: 3rem; animation: float 5s ease-in-out infinite 1s; }
-        .f3 { bottom: 15%; left: 15%; animation: float 3.5s ease-in-out infinite 1.5s; }
-        .f4 { top: 75%; right: 15%; font-size: 2rem; animation: float 4.5s ease-in-out infinite 0.2s; }
-        .f5 { top: 10%; right: 25%; font-size: 3.5rem; animation: float 6s ease-in-out infinite 2s; }
-        .f6 { bottom: 35%; left: 5%; animation: float 4s ease-in-out infinite 0.8s; }
-
-        @keyframes float {
-            0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(10deg); }
-            100% { transform: translateY(0px) rotate(0deg); }
+            overflow: hidden;
         }
 
         .container {
@@ -68,6 +39,19 @@
             z-index: 10;
             position: relative;
             border: 2px solid #ffb3c6;
+            transition: all 1s ease-in-out;
+        }
+
+        /* Titreme Efekti */
+        .shake {
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-2px, 0, 0); }
+            20%, 80% { transform: translate3d(4px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-8px, 0, 0); }
+            40%, 60% { transform: translate3d(8px, 0, 0); }
         }
 
         h2 {
@@ -75,6 +59,8 @@
             color: #d81b60;
             font-size: 2.8rem;
             margin-bottom: 10px;
+            opacity: 0;
+            transition: opacity 2s ease-in;
         }
 
         p.question {
@@ -97,10 +83,6 @@
             color: #880e4f;
         }
 
-        input:focus {
-            border-color: #d81b60;
-        }
-
         button {
             background-color: #f06292;
             color: white;
@@ -121,14 +103,25 @@
 
         #secretContent {
             display: none;
+            opacity: 0;
         }
 
-        img {
+        /* Nefes Alan Fotoğraf Efekti */
+        .breathing-img {
             max-width: 100%;
             border-radius: 15px;
             margin-top: 10px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             border: 4px solid #fff0f5;
+            opacity: 0;
+            transition: opacity 2s ease-in;
+            animation: breath 4s ease-in-out infinite;
+        }
+
+        @keyframes breath {
+            0% { transform: scale(0.98); box-shadow: 0 5px 15px rgba(216, 27, 96, 0.2); }
+            50% { transform: scale(1.02); box-shadow: 0 15px 25px rgba(216, 27, 96, 0.5); }
+            100% { transform: scale(0.98); box-shadow: 0 5px 15px rgba(216, 27, 96, 0.2); }
         }
 
         .message {
@@ -137,6 +130,7 @@
             margin-top: 20px;
             text-align: justify;
             font-size: 1.05rem;
+            min-height: 200px; /* Daktilo yazarken sayfa zıplamasın diye */
         }
 
         .message p {
@@ -146,29 +140,28 @@
         .signature {
             text-align: center !important;
             font-family: 'Dancing Script', cursive;
-            font-size: 2rem;
+            font-size: 2.2rem;
             color: #d81b60;
             margin-top: 25px;
             font-weight: bold;
+        }
+        
+        /* Daktilo imleci */
+        .cursor::after {
+            content: '|';
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
         }
     </style>
 </head>
 <body>
 
-<div class="corner-heart tl">💖</div>
-<div class="corner-heart tr">💖</div>
-<div class="corner-heart bl">💖</div>
-<div class="corner-heart br">💖</div>
-
-<div class="flower f1">💮</div>
-<div class="flower f2">🪷</div>
-<div class="flower f3">💮</div>
-<div class="flower f4">🌸</div>
-<div class="flower f5">🪷</div>
-<div class="flower f6">💮</div>
+<div id="fallingContainer"></div>
 
 <div class="container" id="loginBox">
-    <h2>Kilitli Anı Kutusu</h2>
+    <h2 style="opacity: 1;">Kilitli Anı Kutusu</h2>
     <p class="question">Doğum günlerimiz arasındaki gün sayısı?</p>
     <input type="number" id="passwordInput" placeholder="Cevap...">
     <br>
@@ -176,29 +169,141 @@
 </div>
 
 <div class="container" id="secretContent">
-    <h2>Senin İçin...</h2>
-    <img src="image.png" alt="Biz">
-    <div class="message">
-        <p>Tekrar ettiğim şeyler yüzünden seni üzdüm, kendime çok kızgınım. Sadece özür dilemek yangına şırıngayla müdahale etmek gibi olur.</p>
-        <p>Tabii ki bunların arkasına sığınarak yaptıklarımı normalleştirmeyeceğim ama bildiğin gibi kötü zamanlardan geçtim. O sırada kendi iç çatışmalarım yüzünden dikkatimi yapmam gereken şeylere veremedim, kendi salaklığım ve aptallığımdı. Şu an tamamen farkındayım; çok profesyonel olmasa da destek alıyorum, gerekirse daha profesyonel bir destek de alabilirim. Seni üzmemek için elimden gelen ne varsa yaparım.</p>
-        <p>Yaptıklarım sana kendini dinlenmiyormuş, umursanmıyormuş gibi hissettirmiş olabilir, biliyorum. Kırdığım güveni de yeniden kurmak için acele etmem, sabırla eskisinden daha güçlüsünü beraber inşa edebiliriz.</p>
-        <p class="signature">Seni her şey ve herkesten çok seviyorum. ❤️</p>
-    </div>
+    <h2 id="titleText">Senin İçin...</h2>
+    <img src="image.png" alt="Biz" class="breathing-img" id="coupleImg">
+    <div class="message" id="messageBox"></div>
 </div>
 
 <script>
-    function checkPassword() {
-        // Kullanıcının girdiği cevabı al (boşlukları temizle)
-        const password = document.getElementById('passwordInput').value.trim();
-        const dogruSifre = "100"; 
+    const lines = [
+        "Tekrar ettiğim şeyler yüzünden seni üzdüm, kendime çok kızgınım. Sadece özür dilemek yangına şırıngayla müdahale etmek gibi olur.",
+        "Tabii ki bunların arkasına sığınarak yaptıklarımı normalleştirmeyeceğim ama bildiğin gibi kötü zamanlardan geçtim. O sırada kendi iç çatışmalarım yüzünden dikkatimi yapmam gereken şeylere veremedim, kendi salaklığım ve aptallığımdı. Şu an tamamen farkındayım; çok profesyonel olmasa da destek alıyorum, gerekirse daha profesyonel bir destek de alabilirim. Seni üzmemek için elimden gelen ne varsa yaparım.",
+        "Yaptıklarım sana kendini dinlenmiyormuş, umursanmıyormuş gibi hissettirmiş olabilir, biliyorum. Kırdığım güveni de yeniden kurmak için acele etmem, sabırla eskisinden daha güçlüsünü beraber inşa edebiliriz."
+    ];
+    const signature = "Seni her şey ve herkesten çok seviyorum. ❤️";
 
-        if (password === dogruSifre) {
-            // Şifre doğruysa kutuyu değiştir
-            document.getElementById('loginBox').style.display = 'none';
-            document.getElementById('secretContent').style.display = 'block';
+    function checkPassword() {
+        const password = document.getElementById('passwordInput').value.trim();
+        if (password === "100") {
+            triggerMagic();
         } else {
-            // Şifre yanlışsa uyarı ver
             alert("Sanki bu o sayı değildi... Tekrar düşünmek ister misin? 🌸");
+        }
+    }
+
+    function triggerMagic() {
+        const loginBox = document.getElementById('loginBox');
+        
+        // 1. Kutuyu Titret
+        loginBox.classList.add('shake');
+        
+        setTimeout(() => {
+            // 2. Kutuyu Patlat (Görünmez yap ve patlama animasyonu çağır)
+            loginBox.style.display = 'none';
+            explodeParticles();
+            
+            // 3. Arka planda yağan çiçekleri başlat
+            startFallingBackground();
+
+            // 4. Yeni ekranı yumuşakça getir
+            const secretContent = document.getElementById('secretContent');
+            secretContent.style.display = 'block';
+            
+            setTimeout(() => {
+                secretContent.style.opacity = '1';
+                document.getElementById('titleText').style.opacity = '1';
+                document.getElementById('coupleImg').style.opacity = '1';
+                
+                // 5. Birkaç saniye sonra daktilo efektini başlat
+                setTimeout(startTypewriter, 1500);
+            }, 100);
+
+        }, 500); // Titreme süresi kadar bekle
+    }
+
+    function explodeParticles() {
+        const emojis = ['❤️', '💖', '🌸', '💮', '🪷'];
+        for (let i = 0; i < 40; i++) {
+            let p = document.createElement('div');
+            p.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            p.style.position = 'fixed';
+            p.style.left = '50%';
+            p.style.top = '50%';
+            p.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            p.style.pointerEvents = 'none';
+            p.style.zIndex = '999';
+            p.style.transition = 'all 1s cubic-bezier(0.25, 1, 0.5, 1)';
+            p.style.transform = 'translate(-50%, -50%) scale(0.1)';
+            document.body.appendChild(p);
+
+            setTimeout(() => {
+                let angle = Math.random() * Math.PI * 2;
+                let radius = Math.random() * 350 + 100; // Ne kadar uzağa patlayacakları
+                let tx = Math.cos(angle) * radius;
+                let ty = Math.sin(angle) * radius;
+                p.style.transform = `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(1.5) rotate(${Math.random()*360}deg)`;
+                p.style.opacity = '0';
+            }, 50);
+
+            setTimeout(() => p.remove(), 1050);
+        }
+    }
+
+    function startFallingBackground() {
+        const container = document.getElementById('fallingContainer');
+        const emojis = ['🌸', '💮', '🪷', '💖'];
+        
+        setInterval(() => {
+            let p = document.createElement('div');
+            p.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            p.style.position = 'absolute';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.top = '-50px';
+            p.style.fontSize = (Math.random() * 15 + 15) + 'px';
+            p.style.opacity = Math.random() * 0.5 + 0.3;
+            p.style.transition = 'all ' + (Math.random() * 3 + 4) + 's linear';
+            container.appendChild(p);
+
+            setTimeout(() => {
+                p.style.top = '110vh';
+                p.style.transform = `rotate(${Math.random()*360}deg)`;
+            }, 50);
+
+            setTimeout(() => p.remove(), 7000);
+        }, 400); // Ekrana düşme sıklığı
+    }
+
+    let lineIdx = 0;
+    let charIdx = 0;
+    let msgBox = document.getElementById('messageBox');
+    let currentP = null;
+
+    function startTypewriter() {
+        if (lineIdx < lines.length) {
+            if (charIdx === 0) {
+                if(currentP) currentP.classList.remove('cursor');
+                currentP = document.createElement('p');
+                currentP.classList.add('cursor');
+                msgBox.appendChild(currentP);
+            }
+            if (charIdx < lines[lineIdx].length) {
+                currentP.innerHTML += lines[lineIdx].charAt(charIdx);
+                charIdx++;
+                setTimeout(startTypewriter, 30); // Yazı hızı (milisaniye)
+            } else {
+                lineIdx++;
+                charIdx = 0;
+                setTimeout(startTypewriter, 600); // Paragraf arası bekleme
+            }
+        } else {
+            if(currentP) currentP.classList.remove('cursor');
+            let sig = document.createElement('p');
+            sig.className = 'signature';
+            sig.innerHTML = signature;
+            sig.style.opacity = 0;
+            sig.style.transition = "opacity 2s";
+            msgBox.appendChild(sig);
+            setTimeout(() => sig.style.opacity = 1, 100);
         }
     }
 </script>
